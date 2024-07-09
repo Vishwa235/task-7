@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Display country name,region,sub-region and population</title>
+    </head>
+    <body>
+        
+    </body>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET","https://restcountries.com/v3.1/all",true);
+        xhr.onload = function(){
+            if(200<=xhr.status<=300){
+                var response = JSON.parse(xhr.responseText);
+//Task - 1 Get all the countries from Asia continent /region using Filter method
+               
+                const asianCountries = response.filter(country => country.region === 'Asia');                 
+               // Print the list of Asian countries
+                const asianCountryNames = asianCountries.map(country => country.name.common);  
+                console.log("The list of Asian countries")              
+               const listasianCountryNames = asianCountryNames.map(countries => console.log(countries))
+               
+
+// Task - 2 Get all the countries with a population of less than 2 lakhs using Filter method
+           let populationLess2Lk = response.filter(country => country.population < '200000');
+            // Print the list of Asian countries
+            const populationLess2CountryNames = populationLess2Lk.map(country => country.name.common);                
+            console.log("");
+            console.log("the List of countries with a population of less than 2 lakhs ")
+            
+               const populationLess2 = populationLess2CountryNames.map(countries => console.log(countries));
+
+// Task - 3  Print the following details name, capital, flag, using forEach method
+            console.log("");
+            console.log("The detail of countries ")
+            console.log("");
+                let detailOfCountries = response.forEach(country => {
+                    console.log('Name : '+ country.name.common);
+                    console.log('Capital : '+ country.capital);
+                    console.log('Flag : '+ country.flags.png);
+                    console.log('------------------------');
+                });
+// Task - 4 Print the total population of countries
+                 const totalPopulation = response.reduce((accumulator, countries) => {
+                    accumulator = accumulator + countries.population;
+                    return accumulator;
+                }, 0); 
+                console.log("The Total population of countries is " + totalPopulation);
+                
+// Task - 5 Print the country that uses US dollars as currency.
+                let usDollar = response.filter(country => {
+                    return country.currencies && country.currencies.USD
+                });
+            const dollarCountryNames = usDollar.map(country => country.name.common);                
+            console.log("-----------");
+            console.log("the List of countries using United States dollar ")
+            console.log("");
+               const dollarCountry = dollarCountryNames.map(countries => console.log(countries));
+            }
+            else{
+                console.log("The Response is Failed")
+            }
+        }
+        xhr.onerror = function(){
+            console.log("Error")
+        }
+    xhr.send()
+    </script>
+</html>
